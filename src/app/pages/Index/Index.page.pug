@@ -1,0 +1,54 @@
+extends @layouts/Default/Default.layout.pug
+
+include @widgets/Image/Image.widget.pug
+include @components/Button/Button.component.pug
+
+block append styles
+	link(rel="stylesheet", href=require('./Index.page.scss'))
+
+block append scripts
+	script(src=require('./Index.page.js'), defer)
+
+block body
+	h1 Index.page.pug
+	+CButton
+	br
+	a(href="/about.html") about page
+
+	div.bg-red-600(x-data="dropdown")
+		template(x-if="open")
+			h3 adasdasd
+		button(@click="toggle") toggle
+
+	+WImage('@assets/img/test_jpeg/test_jpeg.jpeg')
+
+	i(src=require('@assets/icons/test_icon.svg?inline'), width="180", height="180", fill="red")
+	br
+
+	h1.text-4xl PNG
+	img(src=require('@assets/img/test_png.png'), alt="alt", width="180")
+	br
+
+	h1.text-4xl SVG
+	img(src=require('@assets/img/the_office/test_svg.svg'), alt="alt", width="180")
+	br
+
+	h1.text-4xl JPG
+	img(src=require('@assets/img/test_jpg.jpg'), alt="alt", width="180")
+	br
+
+	h1.text-4xl JPEG
+	img(src=require('@assets/img/test_jpeg/test_jpeg.jpeg'), alt="alt", width="180")
+	br
+
+	h1.text-4xl WEBP
+	img(src=require('@assets/img/test_webp.webp'), alt="alt", width="180")
+	br
+
+	h1.text-4xl ICO
+	img(src=require('@assets/img/test_ico.ico'), alt="alt", width="180")
+	br
+
+	h1.text-4xl GIF
+	img(src=require('@assets/img/the_office/test_gif.gif'), alt="alt", width="180")
+	br

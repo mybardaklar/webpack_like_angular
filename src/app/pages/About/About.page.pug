@@ -1,0 +1,12 @@
+extends @layouts/Default/Default.layout.pug
+
+block append styles
+	link(rel="stylesheet", href=require('./About.page.scss'))
+
+block append scripts
+	script(src=require('./About.page.ts'), defer)
+
+block body
+	h1 About.page.pug
+	br
+	a(href="/") index page

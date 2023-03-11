@@ -1,0 +1,30 @@
+doctype html
+html(lang="en", dir="ltr")
+	head
+		block head
+			meta(charset="UTF-8")
+			meta(http-equiv="X-UA-Compatible", content="ie=edge")
+			meta(name="viewport", content="width=device-width, initial-scale=1.0")
+			title Document | Pug.js
+			meta(name="theme-color", content="#000000")
+			block styles
+				//- link(rel="stylesheet", href=require('@styles/bootstrap.scss'))
+				link(rel="stylesheet", href=require('@styles/tailwind.scss'))
+				link(rel="stylesheet", href=require('@app/app.scss'))
+			link(rel="icon", type="image/png", sizes="192x192", href=require('@assets/img/favicon.png'))
+
+	body
+		#app
+			block fixed
+
+			block header
+
+			// main.main-content
+			main.main-content
+				block body
+			// ## main.main-content
+
+			block footer
+
+			block scripts
+				script(src=require('@app/app.ts'), defer)
