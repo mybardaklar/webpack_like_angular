@@ -20,7 +20,7 @@ module.exports = {
 
 	output: {
 		path: outputPath,
-		publicPath: '/',
+		publicPath: '',
 		clean: true,
 		filename: 'js/[name].[contenthash:8].js',
 	},
@@ -28,6 +28,7 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.js'],
 		alias: {
+			'@': path.join(__dirname, 'src'),
 			'@app': path.join(__dirname, 'src/app'),
 			'@layouts': path.join(__dirname, 'src/app/layouts'),
 			'@widgets': path.join(__dirname, 'src/app/widgets'),
@@ -44,6 +45,9 @@ module.exports = {
 				filename: (pathData) => {
 					return 'css/[name].[contenthash:8].css';
 				},
+			},
+			js: {
+				filename: 'assets/js/[name].[contenthash:8].js',
 			},
 		}),
 	],
@@ -68,6 +72,10 @@ module.exports = {
 					},
 					// example how to generate dynamic filename
 					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
+				},
+				loader: 'file-loader',
+				options: {
+					name: '/public/icons/[name].[ext]',
 				},
 			},
 
