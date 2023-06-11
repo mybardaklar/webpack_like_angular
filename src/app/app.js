@@ -2,7 +2,7 @@ import SpriteSheet from './SpriteSheet';
 import { loadImage } from './loaders';
 
 // ==> load the source image as an object via 'responsive-loader'
-import imgFilename from '../assets/img/tiles.png';
+import imgFilename from '@assets/img/tiles.png';
 
 // the imported image is an object, see https://github.com/dazuaz/responsive-loader#typescript
 console.log('>> IMG: ', imgFilename.src);
