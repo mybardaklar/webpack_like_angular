@@ -73,10 +73,6 @@ module.exports = {
 					// example how to generate dynamic filename
 					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
 				},
-				loader: 'file-loader',
-				options: {
-					name: '/public/icons/[name].[ext]',
-				},
 			},
 
 			{
