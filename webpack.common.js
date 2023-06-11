@@ -22,7 +22,6 @@ module.exports = {
 		path: outputPath,
 		publicPath: '',
 		clean: true,
-		filename: 'js/[name].[contenthash:8].js',
 	},
 
 	resolve: {
@@ -47,7 +46,7 @@ module.exports = {
 				},
 			},
 			js: {
-				filename: 'assets/js/[name].[contenthash:8].js',
+				filename: 'js/[name].[contenthash:8].js',
 			},
 		}),
 	],
@@ -73,28 +72,27 @@ module.exports = {
 					// example how to generate dynamic filename
 					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
 				},
-				loader: 'file-loader',
-				options: {
-					name: '/public/icons/[name].[ext]',
-				},
 			},
 
 			{
 				test: /\.(png|jpe?g|webp)/,
 				type: 'asset/resource',
-				use: {
-					loader: 'responsive-loader',
-					options: {
-						// output filename of images
-						name: 'assets/img/[name].[hash:8]-[width]w.[ext]',
-					},
-				},
+				// ==> You can't load an image file in the JS using the 'responsive-loader'.
+				// ==> DISABLE 'responsive-loader', then the image can be used in JS
+				// use: {
+				// 	loader: 'responsive-loader',
+				// 	options: {
+				// 		// output filename of images
+				// 		name: 'assets/img/[name].[hash:8]-[width]w.[ext]',
+				// 	},
+				// },
 				generator: {
-					filename: (pathData) => {
-						return path
-							.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
-							.replace(/\\/g, '/');
-					},
+					filename:  'assets/img/[name].[hash:8].[ext]',
+					// filename: (pathData) => {
+					// 	return path
+					// 		.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
+					// 		.replace(/\\/g, '/');
+					// },
 					// example how to generate dynamic filename
 					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
 				},

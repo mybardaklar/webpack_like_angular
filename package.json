@@ -1,4 +1,4 @@
-{
+ {
 	"name": "webpack_test",
 	"version": "1.0.0",
 	"description": "",
@@ -31,12 +31,12 @@
 		"postcss-short": "^5.0.0",
 		"postcss-sort-media-queries": "^4.3.0",
 		"prettier": "^2.7.1",
-		"pug-plugin": "^4.3.2",
-		"responsive-loader": "^3.1.1",
+		"pug-plugin": "^4.9.7",
+		"responsive-loader": "^3.1.2",
 		"rimraf": "^3.0.2",
 		"sass": "^1.55.0",
 		"sass-loader": "^13.1.0",
-		"sharp": "^0.31.1",
+		"sharp": "^0.32.1",
 		"style-loader": "^3.3.1",
 		"tailwindcss": "^3.1.8",
 		"ts-loader": "^9.4.1",
