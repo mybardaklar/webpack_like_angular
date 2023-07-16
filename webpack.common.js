@@ -22,7 +22,6 @@ module.exports = {
 		path: outputPath,
 		publicPath: '',
 		clean: true,
-		filename: 'js/[name].[contenthash:8].js',
 	},
 
 	resolve: {
@@ -47,7 +46,7 @@ module.exports = {
 				},
 			},
 			js: {
-				filename: 'assets/js/[name].[contenthash:8].js',
+				filename: 'js/[name].[contenthash:8].js',
 			},
 		}),
 	],
@@ -59,41 +58,48 @@ module.exports = {
 				loader: PugPlugin.loader,
 			},
 
-			{
-				test: /\.(png|svg|jpe?g|gif|webp|ico)$/i,
-				type: 'asset/resource',
-				include: /img/,
-				resourceQuery: { not: [/inline/] }, // ignore images with `?inline` query
-				generator: {
-					filename: (pathData) => {
-						return path
-							.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
-							.replace(/\\/g, '/');
-					},
-					// example how to generate dynamic filename
-					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
-				},
-			},
+			// ==> This will NOT work, because is already configured the responsive-loader
+			// {
+			// 	test: /\.(png|svg|jpe?g|gif|webp|ico)$/i,
+			// 	type: 'asset/resource',
+			// 	include: /img/,
+			// 	resourceQuery: { not: [/inline/] }, // ignore images with `?inline` query
+			// 	generator: {
+			// 		filename: (pathData) => {
+			// 			return path
+			// 				.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
+			// 				.replace(/\\/g, '/');
+			// 		},
+			// 		// example how to generate dynamic filename
+			// 		// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
+			// 	},
+			// },
 
 			{
 				test: /\.(png|jpe?g|webp)/,
-				type: 'asset/resource',
-				use: {
-					loader: 'responsive-loader',
-					options: {
-						// output filename of images
-						name: 'assets/img/[name].[hash:8]-[width]w.[ext]',
+				oneOf: [
+					// use responsive-loader in JS file
+					{
+						issuer: /\.(js|ts)$/,
+						type: 'javascript/auto', // <== mega important for usage in JS
+						use: {
+							loader: 'responsive-loader',
+							options: {
+								name: 'assets/img/[name].[hash:8]-[width]w[ext]',
+							},
+						},
 					},
-				},
-				generator: {
-					filename: (pathData) => {
-						return path
-							.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
-							.replace(/\\/g, '/');
+					// use responsive-loader in CSS, Pug
+					{
+						type: 'asset/resource', // <== mega important for usage in Pug/CSS
+						use: {
+							loader: 'responsive-loader',
+							options: {
+								name: 'assets/img/[name].[hash:8]-[width]w[ext]',
+							},
+						},
 					},
-					// example how to generate dynamic filename
-					// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
-				},
+				],
 			},
 
 			{
