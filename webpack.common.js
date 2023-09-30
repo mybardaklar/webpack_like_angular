@@ -1,11 +1,11 @@
-const path = require('path');
-const globule = require('globule');
-const PugPlugin = require('pug-plugin');
+const path = require("path");
+const globule = require("globule");
+const PugPlugin = require("pug-plugin");
 
-const outputPath = path.join(__dirname, 'dist');
+const outputPath = path.join(__dirname, "dist");
 
 const viewTemplateFiles = {};
-globule.find('src/app/pages/**/*.page.pug').forEach((filePath) => {
+globule.find("src/app/pages/**/*.page.pug").forEach((filePath) => {
 	const keyName = filePath.split(/\/|.page.pug/).splice(-2, 1)[0];
 
 	Object.assign(viewTemplateFiles, {
@@ -20,21 +20,21 @@ module.exports = {
 
 	output: {
 		path: outputPath,
-		publicPath: '',
+		publicPath: "",
 		clean: true,
 	},
 
 	resolve: {
-		extensions: ['.ts', '.js'],
+		extensions: [".ts", ".js"],
 		alias: {
-			'@': path.join(__dirname, 'src'),
-			'@app': path.join(__dirname, 'src/app'),
-			'@layouts': path.join(__dirname, 'src/app/layouts'),
-			'@widgets': path.join(__dirname, 'src/app/widgets'),
-			'@components': path.join(__dirname, 'src/app/components'),
-			'@pages': path.join(__dirname, 'src/app/pages'),
-			'@assets': path.join(__dirname, 'src/assets'),
-			'@styles': path.join(__dirname, 'src/styles'),
+			"@": path.join(__dirname, "src"),
+			"@app": path.join(__dirname, "src/app"),
+			"@layouts": path.join(__dirname, "src/app/layouts"),
+			"@widgets": path.join(__dirname, "src/app/widgets"),
+			"@components": path.join(__dirname, "src/app/components"),
+			"@pages": path.join(__dirname, "src/app/pages"),
+			"@assets": path.join(__dirname, "src/assets"),
+			"@styles": path.join(__dirname, "src/styles"),
 		},
 	},
 
@@ -42,11 +42,11 @@ module.exports = {
 		new PugPlugin({
 			css: {
 				filename: (pathData) => {
-					return 'css/[name].[contenthash:8].css';
+					return "css/[name].[contenthash:8].css";
 				},
 			},
 			js: {
-				filename: 'js/[name].[contenthash:8].js',
+				filename: "js/[name].[contenthash:8].js",
 			},
 		}),
 	],
@@ -58,44 +58,72 @@ module.exports = {
 				loader: PugPlugin.loader,
 			},
 
-			// ==> This will NOT work, because is already configured the responsive-loader
-			// {
-			// 	test: /\.(png|svg|jpe?g|gif|webp|ico)$/i,
-			// 	type: 'asset/resource',
-			// 	include: /img/,
-			// 	resourceQuery: { not: [/inline/] }, // ignore images with `?inline` query
-			// 	generator: {
-			// 		filename: (pathData) => {
-			// 			return path
-			// 				.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
-			// 				.replace(/\\/g, '/');
-			// 		},
-			// 		// example how to generate dynamic filename
-			// 		// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
-			// 	},
-			// },
-
 			{
-				test: /\.(png|jpe?g|webp)/,
+				test: /\.(gif|jpe?g|png|svg|webp|ico)$/i,
+				type: "asset/resource",
+				include: /img/,
+				resourceQuery: { not: [/inline/] }, // ignore images with `?inline` query
 				oneOf: [
 					// use responsive-loader in JS file
 					{
 						issuer: /\.(js|ts)$/,
-						type: 'javascript/auto', // <== mega important for usage in JS
+						type: "javascript/auto", // <== mega important for usage in JS
+						generator: {
+							filename: (pathData) => {
+								return path
+									.join(
+										path.dirname(pathData.filename).replace("src/", ""),
+										"[name][ext][query]"
+									)
+									.replace(/\\/g, "/");
+							},
+							// example how to generate dynamic filename
+							// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
+						},
+					},
+					// use responsive-loader in CSS, Pug
+					{
+						type: "asset/resource", // <== mega important for usage in Pug/CSS
+						generator: {
+							filename: (pathData) => {
+								return path
+									.join(
+										path.dirname(pathData.filename).replace("src/", ""),
+										"[name][ext][query]"
+									)
+									.replace(/\\/g, "/");
+							},
+							// example how to generate dynamic filename
+							// filename: (pathData) => (pathData.filename.endsWith('favicon.ico') ? 'favicon.ico' : filename),
+						},
+					},
+				],
+			},
+
+			{
+				test: /\.(jpe?g|png|webp)/,
+				type: "asset/resource",
+				include: /img/,
+				resourceQuery: { not: [/inline/] }, // ignore images with `?inline` query
+				oneOf: [
+					// use responsive-loader in JS file
+					{
+						issuer: /\.(js|ts)$/,
+						type: "javascript/auto", // <== mega important for usage in JS
 						use: {
-							loader: 'responsive-loader',
+							loader: "responsive-loader",
 							options: {
-								name: 'assets/img/[name].[hash:8]-[width]w[ext]',
+								name: "assets/img/[name]-[width]w.[hash:8].[ext]",
 							},
 						},
 					},
 					// use responsive-loader in CSS, Pug
 					{
-						type: 'asset/resource', // <== mega important for usage in Pug/CSS
+						type: "asset/resource", // <== mega important for usage in Pug/CSS
 						use: {
-							loader: 'responsive-loader',
+							loader: "responsive-loader",
 							options: {
-								name: 'assets/img/[name].[hash:8]-[width]w[ext]',
+								name: "assets/img/[name]-[width]w.[hash:8].[ext]",
 							},
 						},
 					},
@@ -104,31 +132,34 @@ module.exports = {
 
 			{
 				test: /\.(svg)$/i,
-				type: 'asset/inline',
+				type: "asset/inline",
 				resourceQuery: /inline/,
 			},
 
 			{
 				test: /\.js$/,
-				use: ['babel-loader'],
+				use: ["babel-loader"],
 				exclude: /(node_modules|bower_components)/,
 			},
 
 			{
-				test: /\.(tsx|ts)$/,
-				use: ['ts-loader'],
+				test: /\.(ts)$/,
+				use: ["ts-loader"],
 				exclude: /(node_modules|bower_components)/,
 			},
 
 			{
 				test: /\.(woff(2)?|ttf|otf|eot|svg)$/,
-				type: 'asset/resource',
+				type: "asset/resource",
 				include: /fonts|node_modules/, // fonts from `assets/fonts` or `node_modules` directory only
 				generator: {
 					filename: (pathData) => {
 						return path
-							.join(path.dirname(pathData.filename).replace('src/', ''), '[name][ext][query]')
-							.replace(/\\/g, '/');
+							.join(
+								path.dirname(pathData.filename).replace("src/", ""),
+								"[name][ext][query]"
+							)
+							.replace(/\\/g, "/");
 					},
 				},
 			},

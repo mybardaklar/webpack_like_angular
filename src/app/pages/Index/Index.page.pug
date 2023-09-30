@@ -1,5 +1,7 @@
 extends @layouts/Default/Default.layout.pug
 
+include @components/Button/Button.component.pug
+
 block append styles
 	link(rel="stylesheet", href=require('./Index.page.scss'))
 
@@ -7,4 +9,23 @@ block append scripts
 	script(src=require('./Index.page.js'), defer)
 
 block body
-	canvas#screen(width="640", height="640")
+	+CButton()
+	br
+	img(src=require("@assets/img/gif600x600.gif"), alt="alt")
+	img(src=require("@assets/img/gif4k.gif"), alt="alt")
+	br
+	img(src=require("@assets/img/jpeg600x600.jpeg"), alt="alt")
+	img(src=require("@assets/img/jpeg4k.jpeg"), alt="alt")
+	br
+	img(src=require("@assets/img/jpg600x600.jpg"), alt="alt")
+	img(src=require("@assets/img/jpg4k.jpg"), alt="alt")
+	br
+	img(src=require("@assets/img/png600x600.png"), alt="alt")
+	img(src=require("@assets/img/png4k.png"), alt="alt")
+	br
+	img(src=require("@assets/img/svg600x600.svg"), alt="alt")
+	img(src=require("@assets/img/svg4k.svg"), alt="alt")
+	br
+	img(src=require("@assets/img/webp600x600.webp"), alt="alt")
+	img(src=require("@assets/img/webp4k.webp"), alt="alt")
+	br
